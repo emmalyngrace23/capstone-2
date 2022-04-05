@@ -23,6 +23,9 @@ router.post("/login", userControllers.loginUser);
 // Set Regular User to Admin
 router.put("/updateToAdmin/:id", verify, verifyAdmin, userControllers.updateToAdmin);
 
+// Creation of Order by Regular User
+router.post("/createOrder", verify, userControllers.createOrder);
+
 
 
 

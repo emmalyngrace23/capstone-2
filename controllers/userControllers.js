@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 
 const User = require("../models/User");
+const Supplement = require("../models/Supplement");
 
 const auth = require("../auth");
 
@@ -79,6 +80,7 @@ module.exports.loginUser = (req, res) => {
 	.catch(err => res.send(err));
 };
 
+
 // Update to Admin
 
 module.exports.updateToAdmin = (req, res) => {
@@ -93,3 +95,57 @@ module.exports.updateToAdmin = (req, res) => {
 	.then(updatedUser => res.send(updatedUser))
 	.catch(err => res.send(err));
 }
+
+// Create Order
+
+module.exports.createOrder = async (req, res) => {
+	console.log(req.body.sipplementId);
+	console.log(req.user.id);
+
+	if(req.user.isAdmin) {
+		return res.send("Action Forbidden");
+	};
+
+	let isUserUpdated = await User.findById(req.user.id)
+	.then(user => {
+		console.log("user", user)
+
+		let newOrder = {
+			supplementId: req.body.supplementId
+		}
+
+		user.purchases.push(newOrder);
+
+		return user.save()
+		.then(user => true)
+		.catch(err => err.message);
+	})
+
+	if(isUserUpdated !== true) {
+		return res.send({message: isUserUpdated})
+	}
+
+	let isSupplementUpdated = await Supplement.findById(req.body.supplementId)
+	.then(supplement => {
+		console.log("supplement", supplement);
+
+		let buyer = {
+			userId: req.user.id
+		}
+
+		supplement.buyers.push(buyer);
+
+		return supplement.save()
+		.then(supplement => true)
+		.catch(err => err.message )
+	});
+
+	if(isSupplementUpdated !== true){
+		return res.send({message: isSupplementUpdated})
+	};
+
+	if (isUserUpdated && isSupplementUpdated) {
+		return res.send({message: 'Order Successful!'})
+	};
+
+};

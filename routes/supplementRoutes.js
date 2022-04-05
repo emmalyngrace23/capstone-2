@@ -13,12 +13,25 @@ router.post("/", verify, verifyAdmin, supplementControllers.addSupplement);
 // retrieve all products
 router.get("/", supplementControllers.getAllSupplements);
 
-// update price
-router.put("/:id", verify, verifyAdmin, supplementControllers.updatePrice);
+// retrieve single product
+router.get('/getSingleProduct/:id', supplementControllers.getSingleProduct)
+
+// update product
+router.put("/:id", verify, verifyAdmin, supplementControllers.updateProduct);
 
 // archive product 
 router.put('/archive/:id', verify, verifyAdmin, supplementControllers.archiveSupplement);
 
-
+// activate product
+router.put('/activate/:id', verify, verifyAdmin, supplementControllers.activateSupplement);
 
 module.exports = router;
+
+// retrieve active products
+router.get("/getActiveSupplements", supplementControllers.getActiveSupplements);
+
+// get inactive products
+router.get("/getInactiveSupplements", supplementControllers.getInactiveSupplements);
+
+// find supplement by name
+router.get("/findSupplementByName", supplementControllers.findSupplementByName);
