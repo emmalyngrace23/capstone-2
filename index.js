@@ -25,6 +25,7 @@ db.once('open', () => console.log('Connected to MongoDB'));
 // middleware
 app.use(express.json());
 app.use('/users', userRoutes);
+app.use('/supplements', supplementRoutes);
 
 
 app.use(cors());

@@ -20,7 +20,8 @@ router.get("/", userControllers.getAllUsers);
 // Login User
 router.post("/login", userControllers.loginUser);
 
-
+// Set Regular User to Admin
+router.put("/updateToAdmin/:id", verify, verifyAdmin, userControllers.updateToAdmin);
 
 
 

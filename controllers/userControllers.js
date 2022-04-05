@@ -78,3 +78,18 @@ module.exports.loginUser = (req, res) => {
 	})
 	.catch(err => res.send(err));
 };
+
+// Update to Admin
+
+module.exports.updateToAdmin = (req, res) => {
+	console.log(req.user.id);
+	console.log(req.params.id);
+
+	let updates = {
+		isAdmin: true
+	}
+
+	User.findByIdAndUpdate(req.params.id, updates, {new: true})
+	.then(updatedUser => res.send(updatedUser))
+	.catch(err => res.send(err));
+}
