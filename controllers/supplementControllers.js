@@ -46,3 +46,16 @@ module.exports.updatePrice = (req, res) => {
 	.then(updatedPrice => res.send(updatedPrice))
 	.catch(err => res.send(err));
 };
+
+// archive supplememnt - admin only
+module.exports.archiveSupplement = (req, res) => {
+	console.log(req.params.id);
+
+	let updates = {
+		isActive: false
+	}
+
+	Supplement.findByIdAndUpdate(req.params.id, updates, {new: true})
+	.then(updatedPrice => res.send(updatedPrice))
+	.catch(err => res.send(err));
+};

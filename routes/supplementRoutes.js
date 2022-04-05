@@ -16,6 +16,9 @@ router.get("/", supplementControllers.getAllSupplements);
 // update price
 router.put("/:id", verify, verifyAdmin, supplementControllers.updatePrice);
 
+// archive product 
+router.put('/archive/:id', verify, verifyAdmin, supplementControllers.archiveSupplement);
+
 
 
 module.exports = router;
