@@ -120,3 +120,24 @@ module.exports.findSupplementByName = (req, res) => {
 	})
 	.catch(err => res.send(err));
 };
+
+// retrieve all orders by product- Admin only
+module.exports.getAllOrders = (req, res) => {
+	console.log(req.user)
+	console.log(req.params)
+
+	Supplement.findById(req.params.id)
+	.then(result => {
+		
+		let total = 0;
+		result.buyers.forEach(buyer => {
+			total += buyer.price;
+		});
+		
+		res.send({
+			buyers: result.buyers,
+			total: total
+		});
+	})
+	.catch(err => res.send(err));
+}

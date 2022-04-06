@@ -27,6 +27,10 @@ let supplementSchema = new mongoose.Schema({
 				type: String,
 				required: [true, "User Id is required"]
 			},
+			price: {
+				type: Number,
+				required: [true, "Price is required"]
+			},
 			status: {
 				type: String,
 				default: "Sold"
@@ -40,4 +44,8 @@ let supplementSchema = new mongoose.Schema({
 })
 
 
+
+
+
 module.exports = mongoose.model("Supplement", supplementSchema);
+

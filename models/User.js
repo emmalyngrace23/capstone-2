@@ -19,6 +19,14 @@ let userSchema = new mongoose.Schema({
 				type: String,
 				required: [true, "Supplement Id is required"]
 			},
+			name: {
+				type: String,
+				required: [true, "Name is required"]
+			},
+			price: {
+				type: Number,
+				required: [true, "Price is required"]
+			},
 			status: {
 				type: String,
 				default: "Sold"

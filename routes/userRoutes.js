@@ -26,6 +26,9 @@ router.put("/updateToAdmin/:id", verify, verifyAdmin, userControllers.updateToAd
 // Creation of Order by Regular User
 router.post("/createOrder", verify, userControllers.createOrder);
 
+// Retrieve user's orders
+router.get("/getOrders", verify, userControllers.getOrders);
+
 
 
 

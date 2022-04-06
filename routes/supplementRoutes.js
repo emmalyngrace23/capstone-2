@@ -35,3 +35,6 @@ router.get("/getInactiveSupplements", supplementControllers.getInactiveSupplemen
 
 // find supplement by name
 router.get("/findSupplementByName", supplementControllers.findSupplementByName);
+
+//  retrieve all orders by product- admin only
+router.get("/getAllOrders/:id", verify, verifyAdmin, supplementControllers.getAllOrders);

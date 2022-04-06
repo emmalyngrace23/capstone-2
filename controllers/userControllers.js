@@ -99,38 +99,25 @@ module.exports.updateToAdmin = (req, res) => {
 // Create Order
 
 module.exports.createOrder = async (req, res) => {
-	console.log(req.body.sipplementId);
+	console.log(req.body.supplementId);
 	console.log(req.user.id);
 
 	if(req.user.isAdmin) {
 		return res.send("Action Forbidden");
 	};
 
-	let isUserUpdated = await User.findById(req.user.id)
-	.then(user => {
-		console.log("user", user)
 
-		let newOrder = {
-			supplementId: req.body.supplementId
-		}
 
-		user.purchases.push(newOrder);
-
-		return user.save()
-		.then(user => true)
-		.catch(err => err.message);
-	})
-
-	if(isUserUpdated !== true) {
-		return res.send({message: isUserUpdated})
-	}
+	let supplementOrdered;
 
 	let isSupplementUpdated = await Supplement.findById(req.body.supplementId)
 	.then(supplement => {
 		console.log("supplement", supplement);
+		supplementOrdered = supplement;
 
 		let buyer = {
-			userId: req.user.id
+			userId: req.user.id,
+			price: supplementOrdered.price
 		}
 
 		supplement.buyers.push(buyer);
@@ -144,8 +131,51 @@ module.exports.createOrder = async (req, res) => {
 		return res.send({message: isSupplementUpdated})
 	};
 
+	let isUserUpdated = await User.findById(req.user.id)
+	.then(user => {
+		console.log("user", user)
+		console.log(req.body)
+
+		let newOrder = {
+			supplementId: req.body.supplementId,
+			name: supplementOrdered.name,
+			price: supplementOrdered.price
+		}
+
+		user.purchases.push(newOrder);
+
+		return user.save()
+		.then(user => true)
+		.catch(err => err.message);
+	})
+
+	if(isUserUpdated !== true) {
+		return res.send({message: isUserUpdated})
+	}
+
 	if (isUserUpdated && isSupplementUpdated) {
 		return res.send({message: 'Order Successful!'})
 	};
 
+};
+
+// Retrieve User's Orders
+module.exports.getOrders = (req, res) => {
+	console.log(req.user)
+
+
+	User.findById(req.user.id)
+	.then(result =>{
+		
+		let total = 0;
+		result.purchases.forEach(purchase => {
+			total += purchase.price;
+		});
+		
+		res.send({
+			purchases: result.purchases,
+			total: total
+		});
+	})
+	.catch(err => res.send(err));
 };
