@@ -7,7 +7,7 @@ const cors = require ('cors')
 const userRoutes = require ('./routes/userRoutes');
 const supplementRoutes = require ('./routes/supplementRoutes');
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const app = express(); 
 
@@ -33,3 +33,11 @@ app.use(cors());
 
 
 app.listen(port, () => console.log(`Server is running at port ${port}` ));
+
+/*
+
+https://arcane-plateau-96928.herokuapp.com/
+
+https://git.heroku.com/arcane-plateau-96928.git
+
+*/
