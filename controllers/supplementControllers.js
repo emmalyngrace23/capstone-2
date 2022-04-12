@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Supplement = require("../models/Supplement"); 
 const auth = require("../auth");
 
+
 // controllers
 
 // create new product document - admin only
